@@ -1,0 +1,45 @@
+<!-- Example/test file : traj1d.xml --> 
+<!--Number of trajectories to be injected -->
+<TrajNumber value= 10 /> 
+<!-- Minimum Energy below which a trajectorie is abandoned -->
+<MinEnergy_EeV value=1 /> 
+<!-- Maximum propagation distance in Mpc -->
+<MaxTime_Mpc value=100 /> 
+<!-- Random seed for the simulation -->
+<RandomSeed value=221 /> 
+
+<!-- Output type, here trajectories are choosen -->
+<Output type="Full Trajectories">  
+<!-- Output file, force overwrites an existing file and the possible file types are FITS, ASCII and ROOT -->
+  <File option="force" type="ASCII"> traj1d.txt </File> 
+</Output> 
+
+<!-- Environment specifies the dimensionality of the simulation.-->
+<Environment type="One Dimension" /> 
+
+<!-- Here the interactions are defined -->
+<Interactions type="Sophia">
+<!-- Default value for interactions is on -->
+<!-- In case of trajectories, MaxStep_Mpc defines also the maximal distance between two output points of the trajectory -->
+  <MaxStep_Mpc value = 10 /> 
+</Interactions> 
+
+<!-- Definition of sources, in the 1D case propagation will always end at or before x=0  -->
+<Sources type="Discrete">
+  <Number value=1 /> 
+  <PointSource>
+    <CoordX_Mpc value=100 />
+  </PointSource> 
+
+<!-- Definition of the input spectra, here a monochromatic line at 500 EeV --> 
+<Spectrum type = "Monochromatic" >
+ <Energy_EeV value=500   />
+</Spectrum>
+
+<Particles type="Nuclei">
+ <Number_Of_Species value=1/>
+<!-- Here only protons are injected --> 
+ <Species MassNumber=1 ChargeNumber=1 Abundance=1/>
+</Particles>
+
+</Sources> 

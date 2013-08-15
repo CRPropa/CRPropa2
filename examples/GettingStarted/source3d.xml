@@ -1,0 +1,84 @@
+<!-- Examplefile source3d.xml -->
+<?xml version="1.0" standalone=no>
+
+<!-- Number of injected trajectories -->
+<TrajNumber     value=100000 />
+<!-- Minimum energy, below this trajectories are abandoned -->
+<MinEnergy_EeV  value=40    />
+<!-- Maximum time a trajectory is followed -->
+<MaxTime_Mpc    value=10    />
+<!-- Seed for the random number generator -->
+<RandomSeed     value=815    />
+
+<!-- Output of the simulation will be stored in the fits file source3d.fits -->
+<Output type="Events">
+   <File type="FITS" option="force"> source3d.fits </File> 
+</Output>
+
+<!-- 3D simulation with a (10 Mpc)^3 simulation box -->
+<Environment type="LSS">
+   <Xmin_Mpc value=0/>
+   <Xmax_Mpc value=10/>
+   <Ymin_Mpc value=0/>
+   <Ymax_Mpc value=10/>
+   <Zmin_Mpc value=0/>
+   <Zmax_Mpc value=10/>
+</Environment>
+
+<!-- No magnetic field is used, see traj3d for inclusion of magnetic fields -->
+<MagneticField type="Null"/>
+
+<!-- Here all four interactions, photodisintegration, pair production, pionproduction and decay are used. --> 
+<Interactions type="Sophia">
+   <!-- Switches off interactions on the infrared and optical background --> 
+   <NoIRO/>
+   <!-- In cases without secondary pair production and with event output, MaxStep_Mpc may be large -->
+   <MaxStep_Mpc value=50 />
+</Interactions>
+
+<!-- Details of the Runge-Kutta integrator -->
+<Integrator type="Cash-Karp RK">
+   <Epsilon value=1.e-3 />
+   <!-- Minimum time step for the integrator. Below this value linear propagation is used. -->
+   <!-- The last timestep before a detection (and the spatial resolution of the observer sphere) will always be MinStep_Mpc -->
+   <MinStep_Mpc value=1e-4 />
+</Integrator>
+
+<!-- Continuous sources over the entire simulation box --> 
+<Sources type="Continuous">
+   <!-- Sources will be drawn from an uniform distribution -->
+   <Density type="Uniform">
+      <Xmin_Mpc value=0/>
+      <Xmax_Mpc value=10/>
+      <Ymin_Mpc value=0/>
+      <Ymax_Mpc value=10/>
+      <Zmin_Mpc value=0/>
+      <Zmax_Mpc value=10/>
+   </Density>
+   <!-- In this simulation an equal number of trajectories per logarithmic bin is injected up to a maximum rigidity E/Z= 100 EeV -->
+   <Spectrum type="Power Law">
+      <Alpha    value=1   />
+      <Rigidity_EeV value=1.e2 />
+   </Spectrum>
+
+   <!-- Here Fe, Si and p are injected with a twice as much iron as the other species --> 
+   <Particles type="Nuclei">
+      <Number_Of_Species value=3/>
+      <Species MassNumber=56 ChargeNumber=26 Abundance=20/>
+      <Species MassNumber=24 ChargeNumber=12 Abundance=10/>
+      <Species MassNumber=1 ChargeNumber=1 Abundance=10/>
+   </Particles>
+</Sources>
+
+<!-- For 3D event output a observer needs to be specified --> 
+<!-- Here the observer is a sphere with radius of .5 Mpc --> 
+<!-- Additionally a sphere around a single source is possible -->
+<Observers type="Spheres around Observers">
+   <Number     value=1 />
+   <Radius_Mpc value=0.5 />
+   <SphereObserver>
+       <CoordX_Mpc value=3 />
+       <CoordY_Mpc value=3 />
+       <CoordZ_Mpc value=1 />
+   </SphereObserver>
+</Observers>

@@ -1,0 +1,73 @@
+<!-- Example/test file : source1d.xml --> 
+<!-- TrajNumber defines the number of injected trajectories --> 
+
+<CRPropa>
+<TrajNumber value= 1000 /> 
+
+<!-- Minimum energy, below this treshold the trajectory is not followed anymore -->
+<MinEnergy_EeV value=1 /> 
+<!-- Maximum Time in Mpc a trajectory is followed -->
+<MaxTime_Mpc value=13000 /> 
+
+<!-- Seed for the random number generator --> 
+<RandomSeed value=221 /> 
+
+<!-- Magnetic field, in 1D this is only used for secondary photon propagation -->
+<MagneticField type="1D">
+   <File type="ASCII"> BField_1D_100pG.txt </File>
+</MagneticField>
+
+<!-- Type of the output, in 1D events are recorded at x=0 -->
+<Output type="Events">  
+<!-- Output file, the option force overwrites the file, if it already exists. -->
+<!-- Legal types are ASCII for text output ROOT for root files and FITS.-->
+  <File option="force" type="ASCII"> source1d.txt </File> 
+</Output> 
+
+<!-- Type of the environment, here a 1D environment is used --> 
+<Environment type="One Dimension" /> 
+
+<!-- The used infraredbackground and the scaling with redshift -->
+<InfraredBackground type="Uniform">  
+<IRB_MFPScalingModel type="Kneiske2004_BestFit"/>
+</InfraredBackground> 
+
+<!-- Section of the xml file, where the interactions are specified --> 
+<Interactions type="Sophia">
+<!-- Propagation of secondary photons -->
+<SecondaryPhotons/>
+<!-- For pair production either a Power Law or the parametrization by Kelner & al is used.
+ proba gives an additional propability that a pair production EM cascade is generated in each step, this is only usefull for 3D -->
+<SecondaryPairProdPhotons type="Kelner" proba=1.e0/>
+<!-- secondary neutrino propagation --> 
+<SecondaryNeutrinos/>
+<!-- Maximum Step Size used by the simulation. Larger values allow for faster simulation, but introduce systematic effects for pair production secondaries. -->
+  <MaxStep_Mpc value = 1 /> 
+</Interactions> 
+
+<!-- Definitions of sources, can either be Continuous or Discrete -->
+<Sources type="Continuous">
+<!-- In this simulation cosmic rays are injected between 3 Mpc and 100 Mpc. -->
+<Density type="Uniform">
+<Xmin_Mpc value=3/>
+<Xmax_Mpc value=100/>
+</Density>
+
+<!-- Probability distribution, from which the trajectory parameters are drawn, currently Power Law and Monochromatic are possible. -->
+ <Spectrum type = "Power Law" >
+<!-- Maximum Energy, the minimum energy is given by MinEnergy_EeV at the top of the file -->
+ <Ecut_EeV value=1000   />
+<!-- Spectral index of the injection spectrum -->
+   <Alpha value=1 />
+ </Spectrum>
+
+<!-- Initial composition --> 
+ <Particles type="Nuclei">
+<Number_Of_Species value=3/>
+<!-- Here a composition with equal fractions of Fe, Si and p is injected -->
+<Species MassNumber=56 ChargeNumber=26 Abundance=10/>
+<Species MassNumber=28 ChargeNumber=14 Abundance=10/>
+<Species MassNumber=1 ChargeNumber=1 Abundance=10/>
+  </Particles>
+</Sources> 
+</CRPropa>

@@ -1,0 +1,7 @@
+{
+gSystem->SetIncludePath("-I$ROOTSYS/include -I$SOFTWAREDIR/Healpix_2.20a/include/ -I$SOFTWAREDIR//cfitsio/include");
+gSystem->AddLinkedLibs("$SOFTWAREDIR/cfitsio/lib/libcfitsio.a");
+gSystem->AddLinkedLibs("-L$SOFTWAREDIR/Healpix_2.20a/lib -lchealpix");
+//gSystem->AddLinkedLibs("$SOFTWAREDIR/Healpix_2.20a/lib/libchealpix.a");
+gSystem->Load("libGeom.so");
+}

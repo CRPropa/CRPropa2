@@ -1,0 +1,27 @@
+This is the copyright notice of the CRPropa 1.4 release. If you participate in the CRPropa 2.0 beta test, please do not publish results before CRPropa 2.0 is officially released. 
+
+***************************************************************************
+If you use any part of the programs developed within this release 
+of the CRPropa package, please cite:
+
+  E. Armengaud, G. Sigl, T. Beau, F. Miniati
+  CRPropa: A Numerical Tool for the Propagation of Ultrahigh Energy
+  Cosmic Rays, gamma-rays and Neutrinos
+  2006, astro-ph/0603675
+
+***************************************************************************
+
+CRPropa makes use of the public SOPHIA routines:
+  A.M"ucke, Ralph Engel, J.P.Rachen, R.J.Protheroe and Todor Stanev
+  1999, astro-ph/9903478, Comput. Phys. Commun. 124, 290
+
+CRPropa uses the DINT routines, described in
+  S.Lee, PRD58, 043004 (1998)
+
+CRPropa uses the following public libraries:
+ TinyXML	http://www.grinninglizard.com/tinyxml/
+ CFITSIO	http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html
+ CLHEP		http://wwwasd.web.cern.ch/wwwasd/lhc++/clhep/
+
+
+

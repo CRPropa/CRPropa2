@@ -1,0 +1,14 @@
+
+ CRPropa Previsions
+--------------------
+
+1.4 
+ * implementation of heavy nuclei and their secondaries
+ * non-uniform grid for B fields
+ * non-uniform infrared background
+ * interactions on the IGM/ISM
+ * galactic B field models
+
+2.0
+ * MPI implementation of CRPropa
+
