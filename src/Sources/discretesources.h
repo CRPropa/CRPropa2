@@ -36,7 +36,9 @@ class TDiscreteSources : public TSources, public TXmlParam {
   TVector3D Positions(int i) const { return _fPositions.at(i); }
   /**< Finite list of source positions */
   double EcutList(int i) const { return _fEcutList.at(i); }
-  /**< List of maximum energies (case of a power-law spectrum) or injection energies (case of a monochromatic spectrum) for all the sources. NOT YET IMPLEMENTED. */
+  /**< List of maximum energies (case of a power-law spectrum) or injection energies (case of a monochromatic spectrum) for all the sources. */
+  double EminList(int i) const { return _fEminList.at(i); }
+    /**< List of minimum energies (case of a power-law spectrum) or injection energies (case of a monochromatic spectrum) for all the sources. */
   double AlphaList(int i) const { return _fAlphaList.at(i); }
   /**< List of spectral indices for each individual source in the case of a power-law spectrum. These indices are drawn at the beginning of the simulation from a top-hat distribution in the range [Alpha()-SigAlpha() , Alpha()+SigAlpha()] */
   double SigAlpha() const { return _fSigAlpha; }
