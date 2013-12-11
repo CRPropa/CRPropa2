@@ -61,7 +61,7 @@ Kneiske2004_BestFit:: Kneiske2004_BestFit(std::string XMLFileName): TIRBzEvoluti
   }
   
 
-  /*
+
   TCanvas PowerSpectraCan("PowerSpectraCan","PowerSpectraCan",1);
   z_0_TG.Draw("AC");
   z_0_TG.SetLineStyle(0);
@@ -91,7 +91,7 @@ Kneiske2004_BestFit:: Kneiske2004_BestFit(std::string XMLFileName): TIRBzEvoluti
   PowerSpectraCan.SetLogx();
   PowerSpectraCan.SetLogy();
   PowerSpectraCan.SaveAs("PowerSpectraCan_Kneiske2004_BestFit.root");
-  */  
+
 
   TCanvas PowerSpectraCan_fineBin("PowerSpectraCan_fineBin","PowerSpectraCan_fineBin",1);
   int NIntPoints=10000;
@@ -139,15 +139,37 @@ Kneiske2004_BestFit:: Kneiske2004_BestFit(std::string XMLFileName): TIRBzEvoluti
    
   std::vector<double> x, y;
   
-  double norm = TGraph_Vec_fineBin[0]->Integral(0,TGraph_Vec_fineBin[0]->GetN())*pow(1+0.,3.);
-  x.push_back(0.); y.push_back( TGraph_Vec_fineBin[0]->Integral(0,TGraph_Vec_fineBin[0]->GetN())*pow(1+0.,3.)/norm); 
-  x.push_back(0.2); y.push_back( TGraph_Vec_fineBin[1]->Integral(0,TGraph_Vec_fineBin[1]->GetN())*pow(1+0.2,3.)/norm); 
-  x.push_back(0.4); y.push_back( TGraph_Vec_fineBin[2]->Integral(0,TGraph_Vec_fineBin[2]->GetN())*pow(1+0.4,3.)/norm); 
-  x.push_back(0.6); y.push_back( TGraph_Vec_fineBin[3]->Integral(0,TGraph_Vec_fineBin[3]->GetN())*pow(1+0.6,3.)/norm); 
-  x.push_back(1); y.push_back( TGraph_Vec_fineBin[4]->Integral(0,TGraph_Vec_fineBin[4]->GetN())*pow(1+1.,3.)/norm); 
-  x.push_back(2); y.push_back( TGraph_Vec_fineBin[5]->Integral(0,TGraph_Vec_fineBin[5]->GetN())*pow(1+2.,3.)/norm); 
-  x.push_back(3); y.push_back( TGraph_Vec_fineBin[6]->Integral(0,TGraph_Vec_fineBin[6]->GetN())*pow(1+3.,3.)/norm); 
-  x.push_back(4); y.push_back( TGraph_Vec_fineBin[7]->Integral(0,TGraph_Vec_fineBin[7]->GetN())*pow(1+4.,3.)/norm); 
+  //normalization depends now on redshift. Old version with redshift-independent normalization is commented out
+
+
+//  double norm = TGraph_Vec_fineBin[0]->Integral(0,TGraph_Vec_fineBin[0]->GetN())*pow(1+0.,3.);
+
+  double norm0 = TGraph_Vec_fineBin[0]->Integral(0,TGraph_Vec_fineBin[0]->GetN())*pow(1+0.,3.);
+  double norm02 = TGraph_Vec_fineBin[0]->Integral(0,TGraph_Vec_fineBin[1]->GetN())*pow(1+0.,3.);
+  double norm04 = TGraph_Vec_fineBin[0]->Integral(0,TGraph_Vec_fineBin[2]->GetN())*pow(1+0.,3.);
+  double norm06 = TGraph_Vec_fineBin[0]->Integral(0,TGraph_Vec_fineBin[3]->GetN())*pow(1+0.,3.);
+  double norm1 = TGraph_Vec_fineBin[0]->Integral(0,TGraph_Vec_fineBin[4]->GetN())*pow(1+0.,3.);
+  double norm2 = TGraph_Vec_fineBin[0]->Integral(0,TGraph_Vec_fineBin[5]->GetN())*pow(1+0.,3.);
+  double norm3 = TGraph_Vec_fineBin[0]->Integral(0,TGraph_Vec_fineBin[6]->GetN())*pow(1+0.,3.);
+  double norm4 = TGraph_Vec_fineBin[0]->Integral(0,TGraph_Vec_fineBin[7]->GetN())*pow(1+0.,3.);
+
+//  x.push_back(0.); y.push_back( TGraph_Vec_fineBin[0]->Integral(0,TGraph_Vec_fineBin[0]->GetN())*pow(1+0.,3.)/norm);
+//  x.push_back(0.2); y.push_back( TGraph_Vec_fineBin[1]->Integral(0,TGraph_Vec_fineBin[1]->GetN())*pow(1+0.2,3.)/norm);
+//  x.push_back(0.4); y.push_back( TGraph_Vec_fineBin[2]->Integral(0,TGraph_Vec_fineBin[2]->GetN())*pow(1+0.4,3.)/norm);
+//  x.push_back(0.6); y.push_back( TGraph_Vec_fineBin[3]->Integral(0,TGraph_Vec_fineBin[3]->GetN())*pow(1+0.6,3.)/norm);
+//  x.push_back(1); y.push_back( TGraph_Vec_fineBin[4]->Integral(0,TGraph_Vec_fineBin[4]->GetN())*pow(1+1.,3.)/norm);
+//  x.push_back(2); y.push_back( TGraph_Vec_fineBin[5]->Integral(0,TGraph_Vec_fineBin[5]->GetN())*pow(1+2.,3.)/norm);
+//  x.push_back(3); y.push_back( TGraph_Vec_fineBin[6]->Integral(0,TGraph_Vec_fineBin[6]->GetN())*pow(1+3.,3.)/norm);
+//  x.push_back(4); y.push_back( TGraph_Vec_fineBin[7]->Integral(0,TGraph_Vec_fineBin[7]->GetN())*pow(1+4.,3.)/norm);
+
+  x.push_back(0.); y.push_back( TGraph_Vec_fineBin[0]->Integral(0,TGraph_Vec_fineBin[0]->GetN())*pow(1+0.,3.)/norm0);
+  x.push_back(0.2); y.push_back( TGraph_Vec_fineBin[1]->Integral(0,TGraph_Vec_fineBin[1]->GetN())*pow(1+0.2,3.)/norm02);
+  x.push_back(0.4); y.push_back( TGraph_Vec_fineBin[2]->Integral(0,TGraph_Vec_fineBin[2]->GetN())*pow(1+0.4,3.)/norm04);
+  x.push_back(0.6); y.push_back( TGraph_Vec_fineBin[3]->Integral(0,TGraph_Vec_fineBin[3]->GetN())*pow(1+0.6,3.)/norm06);
+  x.push_back(1); y.push_back( TGraph_Vec_fineBin[4]->Integral(0,TGraph_Vec_fineBin[4]->GetN())*pow(1+1.,3.)/norm1);
+  x.push_back(2); y.push_back( TGraph_Vec_fineBin[5]->Integral(0,TGraph_Vec_fineBin[5]->GetN())*pow(1+2.,3.)/norm2);
+  x.push_back(3); y.push_back( TGraph_Vec_fineBin[6]->Integral(0,TGraph_Vec_fineBin[6]->GetN())*pow(1+3.,3.)/norm3);
+  x.push_back(4); y.push_back( TGraph_Vec_fineBin[7]->Integral(0,TGraph_Vec_fineBin[7]->GetN())*pow(1+4.,3.)/norm4);
   
   /*
   double norm = Maxima_Vec[0]*pow(1+0.,3.);
@@ -163,7 +185,7 @@ Kneiske2004_BestFit:: Kneiske2004_BestFit(std::string XMLFileName): TIRBzEvoluti
   TCanvas IRBScaleFactorCan("IRBScaleFactorCan","IRBScaleFactorCan",1);
   fIRBScaleFactorTG = new TGraph(x.size(),&(x[0]),&(y[0]));
   fIRBScaleFactorTG->Draw("ACp");
-  //IRBScaleFactorCan.SaveAs("IRBScaleFactorCan.root");
+  IRBScaleFactorCan.SaveAs("IRBScaleFactorCan.root");
 }
 
 double Kneiske2004_BestFit::GetScalingFactor(double redshift){
