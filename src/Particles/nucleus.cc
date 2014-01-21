@@ -1129,7 +1129,7 @@ double TNucleus::PionProtonMFP( int caseFlag) {
   double lRefEnergy = _fEnergy*(1.+_fRedshift) / (double) _fMassNumber; //?
   int i_in;
   double pMFP;
-  double scaleFactor=pow(1+_fRedshift,3);
+  double scaleFactor=pow(1.+_fRedshift,3);
   //  int lBgFlag;
   //  double lDistance = _fTimeStep * c_light ;
   
@@ -1137,22 +1137,35 @@ double TNucleus::PionProtonMFP( int caseFlag) {
   case 1:
     //lBgFlag = 1; // CMB
     i_in = min((int)(log10(lRefEnergy/lpInt->E_pionprod(0))/lpInt->dEtabPion()) , 99) ;
-    pMFP = (i_in > 0)?  _fChargeNumber *scaleFactor*lpInt->LossRateProton(i_in): 0 ;
+    if(i_in == 99){
+      pMFP = _fChargeNumber*scaleFactor*lpInt->LossRateProton(i_in); //When the energy is higher than the highest point in the table, the loss rate is set to the loss rate at the highest energy in the table.
+      std::cout<< "WARNING: Energy higher than highest energy in pion production table!" << std::endl;
+    }
+    else
+      pMFP = (i_in > 0)?  _fChargeNumber *scaleFactor*
+	( (lRefEnergy-lpInt->E_pionprod(i_in)) *(lpInt->LossRateProton(i_in+1)-lpInt->LossRateProton(i_in)) /(lpInt->E_pionprod(i_in+1)-lpInt->E_pionprod(i_in))
+	  +lpInt->LossRateProton(i_in)
+	  ): 0 ;   
     break;
-  case 2:
-    
+  case 2:    
     //lBgFlag = 2 ; // IRO
     scaleFactor=_fpUniverse->IRBzEvolutionModel()->GetScalingFactor(_fRedshift);
     i_in = min((int)(log10(lRefEnergy/lpInt->E_IRpionprod(0))/lpInt->dEtabIRPion()) , 149) ;
-    pMFP = (i_in > 0) ? _fChargeNumber *scaleFactor*lpInt->IRLossRateProton(i_in) : 0;
+    if(i_in == 149){
+      pMFP = _fChargeNumber*scaleFactor*lpInt->IRLossRateProton(i_in);
+      std::cout<< "WARNING: Energy higher than highest energy in pion production table!" << std::endl;
+    }
+    else
+      pMFP = (i_in > 0)?  _fChargeNumber *scaleFactor*
+	( (lRefEnergy-lpInt->E_IRpionprod(i_in)) *(lpInt->IRLossRateProton(i_in+1)-lpInt->IRLossRateProton(i_in)) /(lpInt->E_IRpionprod(i_in+1)-lpInt->E_IRpionprod(i_in))
+	  +lpInt->IRLossRateProton(i_in)
+	  ): 0 ;   
     break;
   case 3:
-    
     if (_fpUniverse->Infrared()->Type() == SHELL)
       pMFP = _fChargeNumber * this->CalcIRLossRate(_fEnergy/GeV, TPhotonSpectrum(_fpUniverse->Infrared()->Spectrum(_fPosition.mag()/Mpc)));
     else 
       pMFP = _fChargeNumber * this->CalcIRLossRate(_fEnergy/GeV, TPhotonSpectrum(_fpUniverse->Infrared()->Spectrum(_fPosition.x()/Mpc,_fPosition.y()/Mpc,_fPosition.z()/Mpc)));
-    
     break;
   default: 
     std::cout<<"Default Case"<< std::endl; 
@@ -1184,13 +1197,29 @@ double TNucleus::PionNeutronMFP( int caseFlag) {
   case 1:
     //lBgFlag = 1; // CMB
     i_in = min((int)(log10(lRefEnergy/lpInt->E_pionprod(0))/lpInt->dEtabPion()) , 99) ;
-    nMFP = (i_in>0)?( _fMassNumber - _fChargeNumber) *scaleFactor*lpInt->LossRateNeutron(i_in):0;
+    if(i_in == 99){
+      nMFP = ( _fMassNumber - _fChargeNumber)*scaleFactor*lpInt->LossRateNeutron(i_in);
+      std::cout<< "WARNING: Energy higher than highest energy in pion production table!" << std::endl;
+    }
+    else
+      nMFP = (i_in > 0)?  ( _fMassNumber - _fChargeNumber) *scaleFactor*
+	( (lRefEnergy-lpInt->E_pionprod(i_in)) *(lpInt->LossRateNeutron(i_in+1)-lpInt->LossRateNeutron(i_in)) /(lpInt->E_pionprod(i_in+1)-lpInt->E_pionprod(i_in))
+	  +lpInt->LossRateNeutron(i_in)
+	  ): 0 ;
     break;
   case 2:
     //lBgFlag = 2 ; // IRO
     scaleFactor=_fpUniverse->IRBzEvolutionModel()->GetScalingFactor(_fRedshift);//IRO scaling
     i_in = min((int)(log10(lRefEnergy/lpInt->E_IRpionprod(0))/lpInt->dEtabIRPion()) , 149) ;
-    nMFP = (i_in>0)?( _fMassNumber - _fChargeNumber) *scaleFactor*lpInt->IRLossRateNeutron(i_in):0;
+    if(i_in == 149){
+      nMFP = ( _fMassNumber - _fChargeNumber)*scaleFactor*lpInt->IRLossRateNeutron(i_in);
+      std::cout<< "WARNING: Energy higher than highest energy in pion production table!" << std::endl;
+    }
+    else
+      nMFP = (i_in > 0)?  ( _fMassNumber - _fChargeNumber) *scaleFactor*
+	( (lRefEnergy-lpInt->E_IRpionprod(i_in)) *(lpInt->IRLossRateNeutron(i_in+1)-lpInt->IRLossRateNeutron(i_in)) /(lpInt->E_IRpionprod(i_in+1)-lpInt->E_IRpionprod(i_in))
+	  +lpInt->IRLossRateNeutron(i_in)
+	  ): 0 ;   
     break;
   case 3:
     if (_fpUniverse->Infrared()->Type() == SHELL)
